@@ -232,10 +232,10 @@ map <leader>fX :call FlogAll()<cr>
 map <leader>cc :cc<CR>
 map <leader>cn :cn<CR>
 map <leader>cp :cp<CR>
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-map <C-h> <C-w>h
+" map <C-j> <C-w>j
+" map <C-k> <C-w>k
+" map <C-l> <C-w>l
+" map <C-h> <C-w>h
 
 set textwidth=0
 
