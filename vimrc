@@ -248,5 +248,5 @@ function! SuperCleverTab()
 endfunction
 
 inoremap <Tab> <C-R>=SuperCleverTab()<cr>
-#vmap r "_dP"
+"vmap r "_dP"
 
