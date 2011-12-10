@@ -36,6 +36,7 @@ set secure
 let $JS_CMD='node'
 
 " Command-T configuration
+:set wildignore+=*.class,,.git,*.jar
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
