@@ -2,7 +2,7 @@
 
 if (typeof require != 'undefined') {
     JSLINT = require('./jslint-core').JSLINT;
-    print = require('sys').puts;
+    print = require('util').puts;
 } else {
     load('jslint-core.js');
 }
