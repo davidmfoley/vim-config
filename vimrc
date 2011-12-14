@@ -36,7 +36,7 @@ set secure
 let $JS_CMD='node'
 
 " Command-T configuration
-:set wildignore+=*.class,,.git,*.jar
+:set wildignore+=*.class,.git,*.jar
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
@@ -249,5 +249,7 @@ function! SuperCleverTab()
 endfunction
 
 inoremap <Tab> <C-R>=SuperCleverTab()<cr>
-"vmap r "_dP"
+" ,k = ack for word under cursor
+nmap <leader>k :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ack "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
+:vmap <leader>k y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ack "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
