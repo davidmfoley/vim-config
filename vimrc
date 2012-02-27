@@ -117,27 +117,43 @@ endfunction
 function! AlternateFileName()
   "todo: deal with projects that have /spec/app
   let current = fnamemodify(expand("%"), ':p')
-  if current =~ '/spec/'
-    if current =~ '/spec/javascripts/'
-      let altname = substitute(current, "/spec/","/public/", 'g')
+  let has_asset_pipeline = isdirectory('app/assets/')
+
+  let has_spec = isdirectory('spec/')
+  if has_spec
+    let spec_root = '/spec/'
+    let spec_suffix = '_spec'
+  else
+    let spec_root = '/test/'
+    let spec_suffix = '_test'
+  end
+
+  if current =~ spec_root
+    if current =~ '/javascripts/'
+      if has_asset_pipeline
+        let altname = substitute(current, spec_root,"/app/assets/", 'g')
+      else
+        let altname = substitute(current, spec_root,"/public/", 'g')
+      end
+
       let altname = substitute(altname, "\Spec\.js", ".js",'g')
     else
-      let altname = substitute(current, "/spec/lib/","/lib/", 'g')
-      let altname = substitute(altname, "/spec/","/app/", 'g')
-      let altname = substitute(altname, "\.erb_spec\.rb", ".erb",'g')
-      let altname = substitute(altname, "_spec\.rb", ".rb",'g')
+      let altname = substitute(current, spec_root . "lib/","/lib/", 'g')
+      let altname = substitute(altname, spec_root,"/app/", 'g')
+      let altname = substitute(altname, spec_suffix . "\.rb", ".rb",'g')
     endif
-  elseif current =~ '/test/'
-    " todo: deal with this
   else
-    if current =~ '/javascripts/'
-      let altname = substitute(current, "/public/","/spec/", 'g')
+    if current =~ '/app/assets/javascripts'
+      let altname = substitute(current, "/app/assets/",spec_root, 'g')
+      let altname = substitute(altname, ".js", "Spec.js", 'g')
+    elseif current =~ '/javascripts/'
+      let altname = substitute(current, "/public/", spec_root, 'g')
       let altname = substitute(altname, ".js", "Spec.js", 'g')
     else
-      let altname = substitute(current, "/app/","/spec/", 'g')
-      let altname = substitute(altname, "/lib/", "/spec/lib/", "g")
+      let altname = substitute(current, "/app/", spec_root, 'g')
+      let altname = substitute(altname, "/lib/", spec_root . "lib/", "g")
 
-      let altname = substitute(altname, "\.rb", "_spec.rb", 'g')
+      let altname = substitute(altname, "\.rb", spec_suffix . ".rb", 'g')
     endif
   endif
 
@@ -205,16 +221,31 @@ map <leader>tw :set nowrap!<CR>
 
 " Command-T 'go to' (inspired by GRB)
 map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gV :CommandTFlush<cr>\|:CommandT spec/views<cr>
 map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gC :CommandTFlush<cr>\|:CommandT spec/controllers<cr>
 map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gM :CommandTFlush<cr>\|:CommandT spec/models<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gL :CommandTFlush<cr>\|:CommandT spec/lib<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets<cr>
-map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
-map <leader>gj :CommandTFlush<cr>\|:CommandT public/javascripts<cr>
+
+if isdirectory('spec/')
+  map <leader>gL :CommandTFlush<cr>\|:CommandT spec/lib<cr>
+  map <leader>gV :CommandTFlush<cr>\|:CommandT spec/views<cr>
+  map <leader>gC :CommandTFlush<cr>\|:CommandT spec/controllers<cr>
+  map <leader>gM :CommandTFlush<cr>\|:CommandT spec/models<cr>
+  map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
+else
+  map <leader>gL :CommandTFlush<cr>\|:CommandT test/lib<cr>
+  map <leader>gV :CommandTFlush<cr>\|:CommandT test/views<cr>
+  map <leader>gC :CommandTFlush<cr>\|:CommandT test/controllers<cr>
+  map <leader>gM :CommandTFlush<cr>\|:CommandT test/models<cr>
+  map <leader>gt :CommandTFlush<cr>\|:CommandT test<cr>
+end
+
+if isdirectory('app/assets/')
+  map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts<cr>
+  map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
+else
+  map <leader>gj :CommandTFlush<cr>\|:CommandT public/javascripts<cr>
+  map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets<cr>
+end
 map <leader>gJ :CommandTFlush<cr>\|:CommandT spec/javascripts<cr>
 map <leader>gr :CommandTFlush<cr>\|:CommandT <cr>
 map <leader>gg :CommandTFlush<cr>\|:CommandT $GEM_HOME/gems<cr>
