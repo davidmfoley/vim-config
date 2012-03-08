@@ -115,3 +115,14 @@ function! AlternateFileNameRuby(current, spec_root, spec_suffix)
 
   return altname
 endfunction
+
+function! TestToggleNewTabVertical()
+  :vsplit
+  call FindOrCreateAlternate()
+endfunction
+
+function! TestToggleNewTabHorizontal()
+  :split
+  call FindOrCreateAlternate()
+endfunction
+

@@ -42,32 +42,6 @@ let g:CommandTMaxHeight=20
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
-" Settings for VimClojure
-let vimclojure#HighlightBuiltins=1
-let vimclojure#ParenRainbow=1
-let vimclojure#WantNailgun=1
-let vimclojure#NailgunClient = "/usr/local/bin/ng"
-let g:vimclojure#ParenRainbowColorsDark = {
-					\ '1': 'ctermfg=yellow      guifg=orange1',
-					\ '2': 'ctermfg=green       guifg=yellow1',
-					\ '3': 'ctermfg=magenta     guifg=greenyellow',
-					\ '4': 'ctermfg=yellow      guifg=green1',
-					\ '5': 'ctermfg=green         guifg=springgreen1',
-					\ '6': 'ctermfg=magenta      guifg=cyan1',
-					\ '7': 'ctermfg=yellow        guifg=slateblue1',
-					\ '8': 'ctermfg=green        guifg=magenta1',
-					\ '9': 'ctermfg=magenta     guifg=purple1'
-					\ }
-let classpath = join(
-   \[".",
-   \ "src", "src/main/clojure", "src/main/resources",
-   \ "test", "src/test/clojure", "src/test/resources",
-   \ "classes", "target/classes",
-   \ "lib/*", "lib/dev/*",
-   \ "bin",
-   \ "~/.vim/lib/*", "~/.vim/bin/*"
-   \],
-   \ ":")
 
 " MacVIM shift+arrow-keys behavior (required in .vimrc)
 let macvim_hig_shift_movement = 1
@@ -85,17 +59,10 @@ au FileType make set noexpandtab
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=Blue guibg=Blue
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 
-colorscheme desert256
-if has("gui_running")
-  set guifont=Inconsolata-g:h12
-  highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
-endif
-highlight ExtraWhitespace guisp=Red ctermbg=Blue guibg=Blue
+source ~/.vim/color_settings.vim
 
-if version >= 700
-  au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
-  au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
-endif
+
+source ~/.vim/clojure_settings.vim
 
 set vb
 au BufRead,BufNewFile *.html.mustache set filetype=html
@@ -107,58 +74,15 @@ set backspace=indent,eol,start
 filetype plugin indent on
 
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
-map <leader>b :FuzzyFinderBuffer<CR>
-map <leader>n :FuzzyFinderFile<CR>
 
 source ~/.vim/alternate.vim
-
-function! TestToggleNewTabVertical()
-  :vsplit
-  call FindOrCreateAlternate()
-endfunction
-
-function! TestToggleNewTabHorizontal()
-  :split
-  call FindOrCreateAlternate()
-endfunction
-
-function! RunSpecsInCurrentFile(arg)
-  let current = fnamemodify(expand("%"), ':p')
-
-  if current =~ '/spec/'
-    exec ':!rspec % -O ~/vim-spec.opts ' . a:arg
-  else
-    exec ':!rspec ' . AlternateFileName() . ' -O ~/vim-spec.opts ' . a:arg
-  endif
-endfunction
 
 function! FormatDocument()
   call setreg('*', line('.'))
   exec 'ggVG='
 endfunction
 
-function! FlogFile()
-  let current = fnamemodify(expand("%"), ':p')
-  call FlogAnalyze(current)
-endfunction
-
-function! FlogAll()
-  call FlogAnalyze('app lib -g')
-endfunction
-
-function! FlogAnalyze( path )
-  exec ":silent :!flog " . a:path . " | " . " awk '" . "length($1) > 4 && match($3, /[0-9\.]+/) {printf( \"\\%s:\\%s - flog score - \\%s \\n\", $3, $2,$1)}'  > ~/.flog-results"
-  exec ':cfile ~/.flog-results'
-endfunction
-
-set errorformat+=%f:%l:%m
-
-function! ReekFile()
-  let current = fnamemodify(expand("%"), ':p')
-  exec ":!reek " . current . " | " . " awk '" . "length($1) > 4 &&length($3) > 0{printf( \"\\%s:\\%s - flog score - \\%s \\n\", $3, $2,$1)}'"
-  "  exec ':cfile ~/.reek-results'
-  "  exec ':lli'
-endfunction
+source ~/.vim/ruby_helpers.vim
 
 " flip between test/subject (same window, vsp, sp)
 nnoremap <leader>tt :call FindOrCreateAlternate()<CR>
@@ -173,7 +97,6 @@ map <leader>tn :set invnumber<CR>
 map <leader>tw :set nowrap!<CR>
 
 " Command-T 'go to' (inspired by GRB)
-
 map <leader>gJ :CommandTFlush<cr>\|:CommandT spec/javascripts<cr>
 map <leader>gr :CommandTFlush<cr>\|:CommandT <cr>
 
@@ -217,6 +140,7 @@ exec RubyMode()
 
 map <leader>fa :call setreg('*', line('.'))<cr>:call setreg('c', col('.'))<cr>ggVG=<cr>:exec ":" . getreg('*')<cr>:exec ":%s/ \\+$//"<cr>
 map <leader>fw :call setreg('*', line('.'))<cr>:call setreg('c',col('.'))<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
+
 map <leader>fr :call ReekFile() %<cr>
 map <leader>fl :!flog %<cr>
 
