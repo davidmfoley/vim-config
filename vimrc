@@ -1,4 +1,12 @@
 set nocompatible
+"filetype off
+
+" set rtp+=~/.vim/bundle/vundle/
+" call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+"Bundle 'gmarik/vundle'
 
 set ruler
 syntax on
@@ -36,7 +44,7 @@ set secure
 let $JS_CMD='node'
 
 " Command-T configuration
-:set wildignore+=*.class,.git,*.jar
+set wildignore+=*.class,.git,*.jar,tmp
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
@@ -96,12 +104,17 @@ nnoremap <leader>tp :call RunSpecsInCurrentFile('--profile')<CR>
 map <leader>tn :set invnumber<CR>
 map <leader>tw :set nowrap!<CR>
 
+function! Fuzzball(path)
+  call CommandTFlush
+  exec ":CommandT " . a:path
+endfunction
+
 " Command-T 'go to' (inspired by GRB)
 map <leader>gJ :CommandTFlush<cr>\|:CommandT spec/javascripts<cr>
 map <leader>gr :CommandTFlush<cr>\|:CommandT <cr>
 
 function! RubyMode()
-  map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+  map <leader>gv :call Fuzzball('app/views')<cr>
   map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
   map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
   map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
