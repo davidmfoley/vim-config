@@ -69,7 +69,6 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 
 source ~/.vim/color_settings.vim
 
-
 source ~/.vim/clojure_settings.vim
 
 set vb
@@ -91,6 +90,7 @@ function! FormatDocument()
 endfunction
 
 source ~/.vim/ruby_helpers.vim
+source ~/.vim/coffee_helpers.vim
 
 " flip between test/subject (same window, vsp, sp)
 nnoremap <leader>tt :call FindOrCreateAlternate()<CR>
@@ -151,8 +151,8 @@ endfunction
 
 exec RubyMode()
 
-map <leader>fa :call setreg('*', line('.'))<cr>:call setreg('c', col('.'))<cr>ggVG=<cr>:exec ":" . getreg('*')<cr>:exec ":%s/ \\+$//"<cr>
-map <leader>fw :call setreg('*', line('.'))<cr>:call setreg('c',col('.'))<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
+map <leader>fa :call setreg('*', line('.'))<cr>:call setreg('c', col('.'))<cr>ggVG=<cr>:exec ":retab"<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
+map <leader>fw :call setreg('*', line('.'))<cr>:call setreg('c',col('.'))<cr>:exec ":retab"<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
 
 map <leader>fr :call ReekFile() %<cr>
 map <leader>fl :!flog %<cr>
@@ -161,7 +161,12 @@ map <leader>fl :!flog %<cr>
 map <leader>fx :call FlogFile()<cr>
 map <leader>fX :call FlogAll()<cr>
 
+" Quickfix CoffeeLint shortcuts
+map <leader>cx :call CoffeeLintFile()<cr>
+map <leader>cX :call CoffeeLintAll()<cr>
+
 " navigate through error list
+"
 map <leader>cc :cc<CR>
 map <leader>cn :cn<CR>
 map <leader>cp :cp<CR>
