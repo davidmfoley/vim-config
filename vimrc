@@ -43,8 +43,7 @@ set secure
 
 let $JS_CMD='node'
 
-" Command-T configuration
-set wildignore+=*.class,.git,*.jar,tmp
+set wildignore+=*.class,.git,*.jar,tmp,.DS_Store
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
@@ -104,49 +103,54 @@ nnoremap <leader>tp :call RunSpecsInCurrentFile('--profile')<CR>
 map <leader>tn :set invnumber<CR>
 map <leader>tw :set nowrap!<CR>
 
+" let g:ctrlp_custom_ignore = '\.*\|'
+let g:ctrlp_working_path_mode = 2
+
 function! Fuzzball(path)
-  call CommandTFlush
-  exec ":CommandT " . a:path
+  " call CommandTFlush
+  " exec ":CommandT " . a:path
+  exec ":CtrlP " . a:path
 endfunction
 
+map <leader>gX :ClearCtrlPCache<cr>
 " Command-T 'go to' (inspired by GRB)
-map <leader>gJ :CommandTFlush<cr>\|:CommandT spec/javascripts<cr>
-map <leader>gr :CommandTFlush<cr>\|:CommandT <cr>
+map <leader>gJ :call Fuzzball('spec/javascripts')<cr>
+map <leader>gr :call Fuzzball('')<cr>
 
 function! RubyMode()
   map <leader>gv :call Fuzzball('app/views')<cr>
-  map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-  map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-  map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-  map <leader>gJ :CommandTFlush<cr>\|:CommandT spec/javascripts<cr>
-  map <leader>gg :CommandTFlush<cr>\|:CommandT $GEM_HOME/gems<cr>
-  map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+  map <leader>gc :call Fuzzball('app/controllers')<cr>
+  map <leader>gm :call Fuzzball('app/models')<cr>
+  map <leader>gl :call Fuzzball('lib')<cr>
+  map <leader>gJ :call Fuzzball('spec/javascripts')<cr>
+  map <leader>gg :call Fuzzball('$GEM_HOME/gems')<cr>
+  map <leader>gf :call Fuzzball('features')<cr>
   if isdirectory('app/assets/')
-    map <leader>gj :CommandTFlush<cr>\|:CommandT app/assets/javascripts<cr>
-    map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
+    map <leader>gj :call Fuzzball('app/assets/javascripts')<cr>
+    map <leader>gs :call Fuzzball('app/assets/stylesheets')<cr>
   else
-    map <leader>gj :CommandTFlush<cr>\|:CommandT public/javascripts<cr>
-    map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets<cr>
+    map <leader>gj :call Fuzzball('public/javascripts')<cr>
+    map <leader>gs :call Fuzzball('public/stylesheets')<cr>
   end
   if isdirectory('spec/')
-    map <leader>gL :CommandTFlush<cr>\|:CommandT spec/lib<cr>
-    map <leader>gV :CommandTFlush<cr>\|:CommandT spec/views<cr>
-    map <leader>gC :CommandTFlush<cr>\|:CommandT spec/controllers<cr>
-    map <leader>gM :CommandTFlush<cr>\|:CommandT spec/models<cr>
-    map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
+    map <leader>gL :call Fuzzball('spec/lib')<cr>
+    map <leader>gV :call Fuzzball('spec/views')<cr>
+    map <leader>gC :call Fuzzball('spec/controllers')<cr>
+    map <leader>gM :call Fuzzball('spec/models')<cr>
+    map <leader>gt :call Fuzzball('spec')<cr>
   else
-    map <leader>gL :CommandTFlush<cr>\|:CommandT test/lib<cr>
-    map <leader>gV :CommandTFlush<cr>\|:CommandT test/views<cr>
-    map <leader>gC :CommandTFlush<cr>\|:CommandT test/controllers<cr>
-    map <leader>gM :CommandTFlush<cr>\|:CommandT test/models<cr>
-    map <leader>gt :CommandTFlush<cr>\|:CommandT test<cr>
+    map <leader>gL :call Fuzzball('test/lib')<cr>
+    map <leader>gV :call Fuzzball('test/views')<cr>
+    map <leader>gC :call Fuzzball('test/controllers')<cr>
+    map <leader>gM :call Fuzzball('test/models')<cr>
+    map <leader>gt :call Fuzzball('test')<cr>
   end
 endfunction
 
 function! ClojureMode()
-  map <leader>gs :CommandTFlush<cr>\|:CommandT src<cr>
-  map <leader>gt :CommandTFlush<cr>\|:CommandT test<cr>
-  map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+  map <leader>gs :call Fuzzball('src')<cr>
+  map <leader>gt :call Fuzzball('test')<cr>
+  map <leader>gl :call Fuzzball('lib')<cr>
 endfunction
 
 exec RubyMode()
