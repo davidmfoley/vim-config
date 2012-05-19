@@ -1,12 +1,18 @@
 set nocompatible
-"filetype off
+filetype off
 
-" set rtp+=~/.vim/bundle/vundle/
-" call vundle#rc()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
-"Bundle 'gmarik/vundle'
+" required!
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'davidmfoley/tslime.vim'
+
+Bundle 'kchmck/vim-coffee-script'
 
 set ruler
 syntax on
