@@ -7,7 +7,7 @@ endif
 highlight ExtraWhitespace guisp=Red ctermbg=Blue guibg=Blue
 
 if version >= 700
-  au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
-  au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
+  au InsertEnter * hi StatusLine ctermbg=0 ctermfg=1  gui=undercurl guisp=Magenta
+  au InsertLeave * hi StatusLine ctermfg=4 ctermbg=2 gui=bold,reverse
 endif
 

@@ -53,6 +53,12 @@ let g:syntastic_quiet_warnings=1
 " MacVIM shift+arrow-keys behavior (required in .vimrc)
 let macvim_hig_shift_movement = 1
 
+" resize the window with the arrow keys
+map <Up> <c-w>-
+map <Down> <c-w>+
+map <Left> <c-w><
+map <Right> <c-w>>
+
 " Directories for swp files
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
@@ -113,6 +119,8 @@ function! Fuzzball(path)
 endfunction
 
 map <leader>gX :ClearCtrlPCache<cr>
+map <leader>gb :CtrlPBuffer<cr>
+map <leader>gu :CtrlPMRU<cr>
 " Command-T 'go to' (inspired by GRB)
 map <leader>gJ :call Fuzzball('spec/javascripts')<cr>
 map <leader>gr :call Fuzzball('')<cr>
@@ -175,6 +183,9 @@ map <leader>cc :cc<CR>
 map <leader>cn :cn<CR>
 map <leader>cp :cp<CR>
 
+map <C-J> :cn<CR>
+map <C-K> :cp<CR>
+
 set textwidth=0
 
 function! SuperCleverTab()
@@ -186,7 +197,14 @@ function! SuperCleverTab()
 endfunction
 
 inoremap <Tab> <C-R>=SuperCleverTab()<cr>
+
 " ,k = ack for word under cursor
 nmap <leader>k :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ack "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
 vmap <leader>k y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ack "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
+" send to tmux
+vmap <leader>ee "ry :call Send_to_Tmux(@r)<CR>
+nmap <leader>ee vip<,e>
+
+" change tmux pane settings
+nmap <leader>es :call Tmux_Vars()<CR>
