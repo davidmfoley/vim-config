@@ -49,7 +49,7 @@ set secure
 
 let $JS_CMD='node'
 
-set wildignore+=*.class,.git,*.jar,tmp,.DS_Store
+set wildignore+=*.class,.git,*.jar,tmp,.DS_Store,.jhw-cache
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
@@ -116,7 +116,7 @@ map <leader>tn :set invnumber<CR>
 map <leader>tw :set nowrap!<CR>
 
 " let g:ctrlp_custom_ignore = '\.*\|'
-let g:ctrlp_working_path_mode = 2
+let g:ctrlp_working_path_mode = 0
 
 function! Fuzzball(path)
   " call CommandTFlush
