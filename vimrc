@@ -1,12 +1,18 @@
 set nocompatible
-"filetype off
+filetype off
 
-" set rtp+=~/.vim/bundle/vundle/
-" call vundle#rc()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
-"Bundle 'gmarik/vundle'
+" required!
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'davidmfoley/tslime.vim'
+
+Bundle 'kchmck/vim-coffee-script'
 
 set ruler
 syntax on
@@ -43,7 +49,7 @@ set secure
 
 let $JS_CMD='node'
 
-set wildignore+=*.class,.git,*.jar,tmp,.DS_Store
+set wildignore+=*.class,.git,*.jar,tmp,.DS_Store,.jhw-cache
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
@@ -110,7 +116,7 @@ map <leader>tn :set invnumber<CR>
 map <leader>tw :set nowrap!<CR>
 
 " let g:ctrlp_custom_ignore = '\.*\|'
-let g:ctrlp_working_path_mode = 2
+let g:ctrlp_working_path_mode = 0
 
 function! Fuzzball(path)
   " call CommandTFlush
