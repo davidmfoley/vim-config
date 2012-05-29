@@ -1,6 +1,11 @@
 Install:
 
     cd ~
-    git clone git://github.com/davidmfoley/vim-config.git .vim
+    git clone git://github.com/davidmfoley/vim-config.git ~/.vim
     ln -s .vim/vimrc .vimrc
-    ln -s .vim/gvimrc .gvimrc
+
+Install vundle (used to manage plugins):
+
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    vim +BundleInstall +qall
+
