@@ -44,22 +44,11 @@ function! AlternateFileName()
   elseif current =~ '\.clj$'
     return AlternateFileNameClojure(current)
   elseif current =~ '\.coffee$'
-    return AlternateFileNameCoffee(current)
+    return AlternateFileNameCoffee(current, has_asset_pipeline, spec_root)
   elseif current =~ '\.js$'
     return AlternateFileNameJavascript(current, has_asset_pipeline, spec_root)
   endif
   return current
-endfunction
-
-function! AlternateFileNameCoffee(current)
-  if a:current =~ '/spec/'
-    let altname = substitute(a:current, '/spec/', '/src/', 'g')
-    let altname = substitute(altname, '_spec.clj', '.clj', 'g')
-  else
-    let altname = substitute(a:current, '/src/', '/spec/', 'g')
-    let altname = substitute(altname, '.clj', '_spec.clj', 'g')
-  end
-  return altname
 endfunction
 
 function! AlternateFileNameClojure(current)
@@ -70,6 +59,29 @@ function! AlternateFileNameClojure(current)
     let altname = substitute(a:current, '/src/', '/test/', 'g')
     let altname = substitute(altname, '.clj', '_test.clj', 'g')
   end
+  return altname
+endfunction
+
+function! AlternateFileNameCoffee(current, has_asset_pipeline, spec_root)
+  let current = a:current
+  let has_asset_pipeline = a:has_asset_pipeline
+  let spec_root = a:spec_root
+  if current =~ spec_root
+    if has_asset_pipeline
+      let altname = substitute(current, spec_root,"/app/assets/", 'g')
+    else
+      let altname = substitute(current, spec_root,"/public/", 'g')
+    end
+
+    let altname = substitute(altname, "\_spec\.coffee", ".coffee",'g')
+  else
+    if current =~ '/app/assets/javascripts'
+      let altname = substitute(current, "/app/assets/",spec_root, 'g')
+    elseif current =~ '/javascripts/'
+      let altname = substitute(current, "/public/", spec_root, 'g')
+    endif
+    let altname = substitute(altname, ".coffee", "_spec.coffee", 'g')
+  endif
   return altname
 endfunction
 
