@@ -10,6 +10,7 @@ Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/nerdtree'
 Bundle 'davidmfoley/tslime.vim'
 
 Bundle 'kchmck/vim-coffee-script'
@@ -49,7 +50,7 @@ set secure
 
 let $JS_CMD='node'
 
-set wildignore+=*.class,.git,*.jar,tmp,.DS_Store,.jhw-cache
+set wildignore+=*.class,.git,*.jar,tmp,.DS_Store,.jhw-cache,node_modules
 let g:CommandTMaxHeight=20
 
 " Enable syntastic syntax checking
