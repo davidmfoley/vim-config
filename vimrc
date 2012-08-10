@@ -85,6 +85,7 @@ source ~/.vim/clojure_settings.vim
 
 set vb
 au BufRead,BufNewFile *.html.mustache set filetype=html
+au BufRead,BufNewFile *.hamlbars set filetype=haml
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -160,6 +161,10 @@ function! RubyMode()
     map <leader>gM :call Fuzzball('test/models')<cr>
     map <leader>gt :call Fuzzball('test')<cr>
   end
+endfunction
+
+function! NodeMode()
+  map <leader>gn :call Fuzzball('node_modules/')<cr>
 endfunction
 
 function! ClojureMode()
