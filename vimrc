@@ -33,7 +33,6 @@ set wrapmargin=0
 " Searching
 set hlsearch
 set incsearch
-set ignorecase
 set smartcase
 
 set langmenu=none
