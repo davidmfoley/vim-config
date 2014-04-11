@@ -11,9 +11,10 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
-Bundle 'davidmfoley/tslime.vim'
-
+" Bundle 'davidmfoley/tslime.vim'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'mustache/vim-mustache-handlebars'
 
 set ruler
 syntax on
@@ -55,6 +56,7 @@ let g:CommandTMaxHeight=20
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
+let g:syntastic_always_populate_loc_list=1
 
 " MacVIM shift+arrow-keys behavior (required in .vimrc)
 let macvim_hig_shift_movement = 1
@@ -74,17 +76,20 @@ let mapleader = ","
 
 " make uses real tabs
 au FileType make set noexpandtab
+au FileType golang set noexpandtab
 
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=Blue guibg=Blue
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 
 source ~/.vim/color_settings.vim
-
 source ~/.vim/clojure_settings.vim
+source ~/.vim/go_settings.vim
+source ~/.vim/javascript_settings.vim
 
 set vb
 au BufRead,BufNewFile *.html.mustache set filetype=html
 au BufRead,BufNewFile *.hamlbars set filetype=haml
+au BufRead,BufNewFile *.less set filetype=css
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -93,6 +98,7 @@ set backspace=indent,eol,start
 filetype plugin indent on
 
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+map <leader>rd :redraw!<cr>
 
 source ~/.vim/alternate.vim
 
@@ -176,6 +182,9 @@ exec RubyMode()
 
 map <leader>fa :call setreg('*', line('.'))<cr>:call setreg('c', col('.'))<cr>ggVG=<cr>:exec ":retab"<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
 map <leader>fw :call setreg('*', line('.'))<cr>:call setreg('c',col('.'))<cr>:exec ":retab"<cr>:exec ":%s/ \\+$//"<cr>:exec ":" . getreg('*')<cr>
+
+" format json (saves it too...)
+map <leader>fj :w!<cr>:!node -e "var fs=require('fs');fs.writeFileSync(process.argv[1], JSON.stringify(JSON.parse(fs.readFileSync(process.argv[1])),null,2));" %<cr>
 
 map <leader>fr :call ReekFile() %<cr>
 map <leader>fl :!flog %<cr>
